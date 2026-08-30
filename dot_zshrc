@@ -1,0 +1,68 @@
+# Homebrew
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Zsh completion
+autoload -Uz compinit && compinit
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Zoxide
+eval "$(zoxide init --cmd cd zsh)"
+
+# fzf
+source <(fzf --zsh)
+
+# Uv
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+
+# Zsh config
+setopt INC_APPEND_HISTORY
+setopt histignoredups
+
+# Prevent Ctrl-D from exiting the shell
+setopt IGNORE_EOF
+export IGNORE_EOF=1000000
+bindkey -r '^D'
+
+# PATH adjustments
+export PATH="$HOME/bin:$PATH"
+
+# Environment variables
+export EDITOR=nvim
+export RIPGREP_CONFIG_PATH="$HOME/.config/ripgreprc"
+
+# Aliases
+alias cat=bat
+alias diff=delta
+alias ls=eza
+alias pip=pip3
+alias python=python3
+alias vi="nvim"
+alias vim="nvim"
+
+
+# Select the Git color scheme without modifying the managed ~/.gitconfig.
+update_git_theme() {
+    local selector="$HOME/.config/git/theme-current"
+    local theme="light"
+
+    if [[ "$(defaults read -g AppleInterfaceStyle 2>/dev/null)" == "Dark" ]]; then
+        theme="dark"
+    fi
+
+    local desired="$HOME/.config/git/gitconfig-$theme"
+    local current
+    current="$(git config --file "$selector" --get include.path 2>/dev/null)"
+
+    if [[ "$current" != "$desired" ]]; then
+        git config --file "$selector" --replace-all include.path "$desired"
+    fi
+}
+
+precmd_functions+=(update_git_theme)
+update_git_theme
+
+# Starship
+eval "$(starship init zsh)"
+
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"

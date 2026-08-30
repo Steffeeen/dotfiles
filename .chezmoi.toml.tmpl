@@ -1,0 +1,8 @@
+{{- $name := promptStringOnce . "name" "What is your Git author name" -}}
+{{- $email := promptStringOnce . "email" "What is your Git email address" -}}
+{{- $is_work := promptBoolOnce . "is_work" "Is this a work machine (true/false)" -}}
+
+[data]
+    name = {{ $name | quote }}
+    email = {{ $email | quote }}
+    is_work = {{ $is_work }}

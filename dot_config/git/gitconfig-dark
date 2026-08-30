@@ -1,0 +1,5 @@
+# [format]
+	# pretty = format:%C(bold blue)%h%C(reset)%C(auto)%d%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar)%C(reset)
+
+[alias]
+	lp = log --pretty='format:%C(bold blue)%h%C(reset)%C(auto)%d%C(reset) - %C(white)%s%C(reset) %C(dim white)- %an%C(reset) %C(bold green)(%ar)%C(reset)'

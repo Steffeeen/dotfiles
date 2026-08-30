@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Ensure Homebrew is in PATH (handling Apple Silicon / Intel paths)
+if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+fi
+
+if ! command -v brew >/dev/null 2>&1; then
+    echo "Homebrew is not installed. Skipping package installation."
+    exit 0
+fi
+
+echo "Syncing curated Homebrew packages..."
+
+brew bundle --file=- <<EOF
+# Core CLI utilities
+brew "bat"
+brew "eza"
+brew "fd"
+brew "fzf"
+brew "git"
+brew "git-delta"
+brew "neovim"
+brew "jq"
+brew "ripgrep"
+brew "starship"
+brew "tmux"
+brew "uv"
+brew "zoxide"
+
+cask "ghostty"
+
+{{- if .is_work }}
+# Work-specific tools
+{{- else }}
+# Personal-specific tools
+{{- end }}
+EOF

@@ -1,0 +1,52 @@
+[user]
+	name = {{ .name }}
+	email = {{ .email }}
+{{- if not .is_work }}
+	signingkey = ~/.ssh/github.pub
+{{- end }}
+
+{{- if not .is_work }}
+
+[gpg]
+	format = ssh
+
+[commit]
+	gpgsign = true
+
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers
+{{- end }}
+
+[core]
+	autocrlf = input
+	pager = delta --line-numbers
+
+[merge]
+	conflictstyle = zdiff3
+
+[log]
+	abbrevCommit = true
+
+[branch]
+	sort = -committerdate
+    autosetupmerge = simple
+    autosetuprebase = remote
+
+[rebase]
+    autostash = true
+
+[pull]
+    rebase = true
+
+[push]
+	autoSetupRemote = true
+
+[diff]
+	algorithm = histogram
+	colorMoved = plain
+	renames = true
+
+[include]
+	path = ~/.config/git/gitconfig-light
+	path = ~/.config/git/theme-current
+	path = ~/.gitconfig.local
