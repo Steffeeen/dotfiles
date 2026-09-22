@@ -49,6 +49,15 @@
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
 
+[alias]
+    s = status
+    c = commit
+    ca = commit --amend
+    can = commit --amend --no-edit
+    cf = commit --fixup
+    ri = rebase -i
+    ria = rebase -i --autosquash
+
 [include]
 	path = ~/.config/git/gitconfig-light
 	path = ~/.config/git/theme-current
