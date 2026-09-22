@@ -39,6 +39,7 @@ alias pip=pip3
 alias python=python3
 alias vi="nvim"
 alias vim="nvim"
+alias 7z="7zz"
 alias unzip="7z x"
 
 
