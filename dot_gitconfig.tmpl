@@ -67,6 +67,10 @@
     r = restore
     rs = restore --staged
     bl = branch -l
+    
+{{- if .is_work }}
+    ctm = log --oneline origin/master..HEAD
+{{- end }}
 
 [include]
 	path = ~/.config/git/gitconfig-light
