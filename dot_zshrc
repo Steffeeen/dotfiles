@@ -42,6 +42,11 @@ alias vim="nvim"
 alias 7z="7zz"
 alias unzip="7z x"
 
+# Helpers
+cdf() {
+  local dir
+  dir=$(printf '%s\n' *(/) | fzf) && cd "$dir"
+}
 
 # Select the Git color scheme without modifying the managed ~/.gitconfig.
 update_git_theme() {
