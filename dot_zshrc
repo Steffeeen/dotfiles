@@ -48,6 +48,31 @@ cdf() {
   dir=$(printf '%s\n' *(/) | fzf) && cd "$dir"
 }
 
+cdu() {
+  local dir=${PWD:h}
+  local -a matches
+
+  while [[ $dir != / ]]; do
+    if [[ -z $1 || ${dir:t} == *"$1"* ]]; then
+      matches+=("$dir")
+    fi
+    dir=${dir:h}
+  done
+
+  if (( ${#matches[@]} == 0 )); then
+    print -u2 "cdu: no matching parent directory"
+    return 1
+  elif (( ${#matches[@]} == 1 )); then
+    builtin cd "$matches[1]"
+    return
+  fi
+
+  local selected
+  selected=$(printf '%s\n' "${matches[@]}" | fzf)
+
+  [[ -n $selected ]] && builtin cd "$selected"
+}
+
 # Select the Git color scheme without modifying the managed ~/.gitconfig.
 update_git_theme() {
     local selector="$HOME/.config/git/theme-current"
