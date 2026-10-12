@@ -50,14 +50,18 @@ cdf() {
 
 cdu() {
   local dir=${PWD:h}
-  local -a matches
+  local -a matches exact
 
   while [[ $dir != / ]]; do
     if [[ -z $1 || ${dir:t} == *"$1"* ]]; then
       matches+=("$dir")
+      [[ ${dir:t} == "$1" ]] && exact+=("$dir")
     fi
     dir=${dir:h}
   done
+
+  # Prefer directories whose name is exactly the argument
+  (( ${#exact[@]} )) && matches=("${exact[@]}")
 
   if (( ${#matches[@]} == 0 )); then
     print -u2 "cdu: no matching parent directory"
