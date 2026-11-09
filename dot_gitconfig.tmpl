@@ -72,6 +72,8 @@
     ds = diff --staged
     r = restore
     rs = restore --staged
+    rsi = "!f() { git diff --name-only -z \"$@\" | fzf --read0 --print0 --multi --height 40% --reverse --preview \"git diff --color=always $* -- {}\" | xargs -0 -r git restore \"$@\" --; }; f"
+    rssi = rsi --staged
     bl = branch -l
     swi = "!f() { b=$(git branch --all --format='%(refname:short)' | sed 's#^origin/##' | grep -vx 'origin' | awk '!seen[$0]++' | fzf --height 40% --reverse --select-1 --query=\"$*\" --preview 'git log --oneline --graph --color=always -25 {} -- 2>/dev/null || git log --oneline --graph --color=always -20 origin/{} --') && git switch \"$b\"; }; f"
 
