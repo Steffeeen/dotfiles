@@ -61,6 +61,7 @@
     cfi = "!f() { c=$(git log --oneline --color=always -10 | fzf --ansi --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] && git commit --fixup \"$c\" \"$@\"; }; f"
     ri = rebase -i
     ria = rebase -i --autosquash
+    rii = "!f() { c=$(git log --oneline --color=always -10 | fzf --ansi --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] || return 1; if git rev-parse -q --verify \"$c^\" >/dev/null; then git rebase -i \"$c^\" \"$@\"; else git rebase -i --root \"$@\"; fi; }; f"
     rc = rebase --continue
     st = stash -u
     stm = stash push -u -m
