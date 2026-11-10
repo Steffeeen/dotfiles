@@ -71,8 +71,8 @@
     shi = "!f() { git log --oneline --color=always \"$@\" | fzf --ansi --height 40% --reverse --no-sort --preview 'git show --color=always {1}' --bind 'enter:execute(LESS=R DELTA_PAGER=\"less -R\" git show {1})'; true; }; f"
     d = diff
     ds = diff --staged
-    r = restore
-    rs = restore --staged
+    rs = restore
+    rss = restore --staged
     rsi = "!f() { git diff --name-only -z \"$@\" | fzf --read0 --print0 --multi --height 40% --reverse --preview \"git diff --color=always $* -- {}\" | xargs -0 -r git restore \"$@\" --; }; f"
     rssi = rsi --staged
     bl = branch -l
