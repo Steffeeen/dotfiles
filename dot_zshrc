@@ -41,6 +41,8 @@ alias vi="nvim"
 alias vim="nvim"
 alias 7z="7zz"
 alias unzip="7z x"
+alias ezrc="nvim ~/.zshrc && source ~/.zshrc"
+alias ezlocal="nvim ~/.zshrc.local && source ~/.zshrc"
 
 # Helpers
 cdf() {
