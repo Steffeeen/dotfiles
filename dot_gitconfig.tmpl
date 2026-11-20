@@ -57,11 +57,12 @@
     cm = commit -m
     ca = commit --amend
     can = commit --amend --no-edit
+    ahead = "!f() { b=$(git symbolic-ref -q --short refs/remotes/origin/HEAD) && r=\"$b..HEAD\" || r=HEAD; [ -n \"$(git log -1 --format=%h \"$r\")\" ] || { echo \"No commits ahead of $b\" >&2; return 1; }; git log --oneline \"$@\" \"$r\"; }; f"
     cf = commit --fixup
-    cfi = "!f() { c=$(git log --oneline --color=always -10 | fzf --ansi --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] && git commit --fixup \"$c\" \"$@\"; }; f"
+    cfi = "!f() { c=$(git ahead --color=always | fzf --ansi --exit-0 --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] && git commit --fixup \"$c\" \"$@\"; }; f"
     ri = rebase -i
     ria = rebase -i --autosquash
-    rii = "!f() { c=$(git log --oneline --color=always -10 | fzf --ansi --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] || return 1; if git rev-parse -q --verify \"$c^\" >/dev/null; then git rebase -i \"$c^\" \"$@\"; else git rebase -i --root \"$@\"; fi; }; f"
+    rii = "!f() { c=$(git ahead --color=always | fzf --ansi --exit-0 --height 40% --reverse --no-sort --preview 'git show -s --format=%B {1}' | cut -d' ' -f1) && [ -n \"$c\" ] || return 1; if git rev-parse -q --verify \"$c^\" >/dev/null; then git rebase -i \"$c^\" \"$@\"; else git rebase -i --root \"$@\"; fi; }; f"
     rc = rebase --continue
     st = stash -u
     stm = stash push -u -m
@@ -77,10 +78,6 @@
     rssi = rsi --staged
     bl = branch -l
     swi = "!f() { b=$(git branch --all --format='%(refname:short)' | sed 's#^origin/##' | grep -vx 'origin' | awk '!seen[$0]++' | fzf --height 40% --reverse --select-1 --query=\"$*\" --preview 'git log --oneline --graph --color=always -25 {} -- 2>/dev/null || git log --oneline --graph --color=always -20 origin/{} --') && git switch \"$b\"; }; f"
-
-{{- if .is_work }}
-    ctm = log --oneline origin/master..HEAD
-{{- end }}
 
 [include]
 	path = ~/.config/git/gitconfig-light
