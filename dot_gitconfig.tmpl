@@ -19,7 +19,7 @@
 
 [core]
 	autocrlf = input
-	pager = delta --line-numbers
+	pager = delta
 
 [merge]
 	conflictstyle = zdiff3
@@ -45,6 +45,12 @@
 	algorithm = histogram
 	colorMoved = plain
 	renames = true
+
+[delta]
+    line-numbers = true
+    inspect-raw-lines = false
+    plus-empty-line-marker-style = normal green
+    minus-empty-line-marker-style = normal red
 
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
